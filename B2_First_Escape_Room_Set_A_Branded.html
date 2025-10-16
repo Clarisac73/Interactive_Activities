@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>B2 First Escape Room – Set A • English House</title>
+<style>
+  :root{
+    --bg:#0b132b;
+    --panel:#1c2541;
+    --accent:#5bc0be;
+    --accent2:#6fffe9;
+    --text:#f5f7fa;
+    --muted:#b8c2d8;
+    --ok:#22c55e;
+    --warn:#f59e0b;
+    --bad:#ef4444;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
+    background:linear-gradient(180deg, var(--bg) 0%, #0b1020 100%); color:var(--text)}
+  .container{max-width:1100px; margin:0 auto; padding:24px}
+  header{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:16px}
+  .brand{display:flex; align-items:center; gap:14px}
+  .logo-wrap{display:flex; align-items:center; gap:10px}
+  .logo{
+    width:56px; height:56px; border-radius:14px; background:var(--accent);
+    display:grid; place-items:center; color:#001014; font-weight:900; font-size:22px;
+    box-shadow:0 10px 20px rgba(0,0,0,.25), inset 0 0 24px rgba(0,0,0,.15);
+    overflow:hidden;
+  }
+  .logo img{width:100%; height:100%; object-fit:cover}
+  .title h1{margin:0; font-size:28px; letter-spacing:.5px}
+  .subtitle{color:var(--muted); margin-top:4px; font-size:14px}
+  .scoreboard{display:flex; gap:12px; align-items:center; background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08); padding:10px 14px; border-radius:12px}
+  .chip{background:rgba(255,255,255,.08); padding:6px 10px; border-radius:999px; font-size:14px}
+  .grid{display:grid; gap:18px}
+  .grid.cols-2{grid-template-columns:repeat(2, minmax(0,1fr))}
+  .grid.cols-3{grid-template-columns:repeat(3, minmax(0,1fr))}
+  .grid.cols-4{grid-template-columns:repeat(4, minmax(0,1fr))}
+  .panel{background:linear-gradient(180deg, var(--panel), #0f172a 120%);
+    border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:18px; box-shadow:0 12px 24px rgba(0,0,0,.25)}
+  h2{margin:0 0 8px 0; font-size:22px}
+  h3{margin:10px 0 6px; font-size:18px}
+  p{line-height:1.5}
+  button{appearance:none; border:none; border-radius:12px; padding:10px 14px; font-weight:700;
+    background:var(--accent); color:#001014; cursor:pointer;
+    box-shadow:0 10px 20px rgba(0,0,0,.25), inset 0 -8px 14px rgba(0,0,0,.15);
+    transition:transform .05s ease}
+  button:hover{transform:translateY(-1px)}
+  button.secondary{background:rgba(255,255,255,.08); color:var(--text)}
+  .inline-btn{margin-left:8px}
+  .task{display:none} .task.active{display:block}
+  .deck{display:flex; gap:14px; flex-wrap:wrap}
+  .card{flex:1 1 160px; min-width:160px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+    border-radius:14px; padding:12px}
+  .imgbox{height:120px; border-radius:10px; display:grid; place-items:center;
+    background:radial-gradient(100% 100% at 50% 0%, rgba(255,255,255,.2), rgba(255,255,255,.05)); font-size:46px}
+  .note{color:var(--muted); font-size:14px}
+  .timer{font-variant-numeric:tabular-nums; font-weight:800; letter-spacing:1px}
+  .answer{padding:8px 10px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:10px; margin:6px 0}
+  .answer.correct{outline:2px solid var(--ok)} .answer.wrong{outline:2px solid var(--bad)}
+  input[type="text"]{width:120px; padding:6px 8px; border-radius:8px; border:1px solid rgba(255,255,255,.2); background:#0b1220; color:var(--text)}
+  .footer{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:18px}
+  .secret{font-weight:800; letter-spacing:6px}
+  .kbd{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    background:rgba(255,255,255,.08); padding:2px 8px; border-radius:8px; border:1px solid rgba(255,255,255,.15)}
+  .credits{color:var(--muted); font-size:12px; text-align:center; margin-top:18px}
+  .drop{border:2px dashed rgba(255,255,255,.3); border-radius:12px; padding:8px; text-align:center; cursor:pointer}
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo-wrap">
+          <div class="logo" id="logoBox"><span id="logoText">EH</span></div>
+          <div>
+            <div class="drop" id="drop">Drag & drop logo (PNG/JPG) or click to upload</div>
+            <input id="file" type="file" accept="image/*" class="hidden" />
+          </div>
+        </div>
+        <div class="title">
+          <h1>B2 First Escape Room – <span style="color:var(--accent2)">Set A • English House</span></h1>
+          <div class="subtitle">Projector mode • Groups of 3–4 • Brandable (logo + colors)</div>
+        </div>
+      </div>
+      <div class="scoreboard">
+        <div class="chip">Score: <span id="score">0</span></div>
+        <div class="chip">Solved: <span id="solved">0</span>/5</div>
+        <div class="chip">Password: <span id="password" class="secret">_ _ _ _ _</span></div>
+      </div>
+    </header>
+
+    <div class="panel">
+      <h2>Branding & Theme</h2>
+      <div class="grid cols-4">
+        <div class="card">
+          <h3>Colors</h3>
+          <label class="note">Primary bg <input type="color" id="c1" value="#0b132b"></label><br>
+          <label class="note">Panel <input type="color" id="c2" value="#1c2541"></label><br>
+          <label class="note">Accent <input type="color" id="c3" value="#5bc0be"></label><br>
+          <label class="note">Accent 2 <input type="color" id="c4" value="#6fffe9"></label><br>
+          <button onclick="applyColors()">Apply</button>
+        </div>
+        <div class="card">
+          <h3>Presets</h3>
+          <button onclick="preset('EH')">English House</button>
+          <button class="inline-btn" onclick="preset('RTP')">RTP</button>
+          <p class="note">Presets set the 4 theme colors at once.</p>
+        </div>
+        <div class="card">
+          <h3>Logo Text</h3>
+          <input id="brand" type="text" placeholder="Two letters" maxlength="3">
+          <button onclick="setLogoText()">Update</button>
+          <p class="note">or upload an image as logo.</p>
+        </div>
+        <div class="card">
+          <h3>Controls</h3>
+          <button onclick="gotoTask(1)">Start: Speaking</button>
+          <button class="secondary inline-btn" onclick="toggleFull()">Fullscreen</button>
+          <p class="note">Press <span class="kbd">T</span> to start/stop timers quickly.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASKS -->
+    <section id="task1" class="task panel">
+      <h2>Task 1 – Speaking: Describe &amp; Guess</h2>
+      <p>Choose one card silently. Prepare a 45-second description without naming the topic or pointing. Other teams guess the card.</p>
+      <div class="deck">
+        <div class="card"><div class="imgbox">✈️</div><h3>Travel Challenge</h3><p class="note">It looks like..., They might be..., Perhaps...</p></div>
+        <div class="card"><div class="imgbox">🤝</div><h3>Volunteering</h3><p class="note">From my perspective..., One advantage is...</p></div>
+        <div class="card"><div class="imgbox">📱</div><h3>Technology &amp; Teens</h3><p class="note">On the one hand..., whereas..., however...</p></div>
+        <div class="card"><div class="imgbox">🎓</div><h3>Study Abroad</h3><p class="note">It could suggest..., Judging by..., likely...</p></div>
+        <div class="card"><div class="imgbox">🌱</div><h3>Environment</h3><p class="note">In contrast..., compared with..., nevertheless...</p></div>
+        <div class="card"><div class="imgbox">🏃</div><h3>Health &amp; Sports</h3><p class="note">I suppose..., seems to..., It must be...</p></div>
+      </div>
+      <div class="footer">
+        <div><span>Timer: <span id="timer1" class="timer">00:45</span></span>
+          <button class="inline-btn" onclick="startTimer(45,'timer1')">Start 45s</button>
+          <button class="secondary inline-btn" onclick="stopTimer()">Stop</button></div>
+        <div><button onclick="award(5); revealLetter(0);">Reveal Letter</button>
+          <button class="secondary inline-btn" onclick="gotoTask(2)">Next: Reading</button></div>
+      </div>
+    </section>
+
+    <section id="task2" class="task panel" data-fake-index="3">
+      <h2>Task 2 – Reading: Find the Fake Headline</h2>
+      <p>Read the extracts. One headline is FAKE. Choose and justify.</p>
+      <div class="grid cols-3">
+        
+        <div class="card">
+          <h3>1) Museum opens 'silent disco' gallery nights</h3>
+          <p class="note">Extract: Visitors wear headphones to choose between a guided tour or upbeat playlists while viewing modern art. Staff reported fewer complaints about noise.</p>
+          <label class="answer"><input type="radio" name="r1" value="1"> This is the fake</label>
+        </div>
+        
+
+        <div class="card">
+          <h3>2) Teen invents solar backpack that charges laptops</h3>
+          <p class="note">Extract: The 18-year-old used flexible panels and a lightweight battery to help classmates study during power cuts, winning a regional engineering prize.</p>
+          <label class="answer"><input type="radio" name="r1" value="2"> This is the fake</label>
+        </div>
+        
+
+        <div class="card">
+          <h3>3) World’s first city bans umbrellas on windy days</h3>
+          <p class="note">Extract: Officials said broken spokes were 'visual pollution' and proposed a permit system for raincoats. Residents posted memes instead of support.</p>
+          <label class="answer"><input type="radio" name="r1" value="3"> This is the fake</label>
+        </div>
+        
+      </div>
+      <div class="footer">
+        <div><span>Timer: <span id="timer2" class="timer">03:00</span></span>
+          <button class="inline-btn" onclick="startTimer(180,'timer2')">Start 3m</button>
+          <button class="secondary inline-btn" onclick="stopTimer()">Stop</button></div>
+        <div><button onclick="checkReading()">Check</button>
+          <button class="secondary inline-btn" onclick="gotoTask(3)">Next: Use of English</button></div>
+      </div>
+    </section>
+
+    <section id="task3" class="task panel">
+      <h2>Task 3 – Use of English: Open Cloze</h2>
+      <p>Complete the text with ONE word in each gap.</p>
+      <p>Jana had always wanted to volunteer abroad, but she couldn’t afford it. Last year she applied for a grant and, <input id="g1" type="text" placeholder="(35)"> she didn’t expect much, she was selected. By the time she arrived, the team <input id="g2" type="text" placeholder="(36)"> already <input id="g3" type="text" placeholder="(37)"> working for two weeks, so she felt a bit behind. She made friends <input id="g4" type="text" placeholder="(38)"> the first day and discovered that small changes, <input id="g5" type="text" placeholder="(39)"> as teaching basic first‑aid, can have a big impact.</p>
+      <div class="footer">
+        <div><span>Timer: <span id="timer3" class="timer">04:00</span></span>
+          <button class="inline-btn" onclick="startTimer(240,'timer3')">Start 4m</button>
+          <button class="secondary inline-btn" onclick="stopTimer()">Stop</button></div>
+        <div><button onclick="checkCloze()">Check</button>
+          <button class="secondary inline-btn" onclick="gotoTask(4)">Next: Listening</button></div>
+      </div>
+    </section>
+
+    <section id="task4" class="task panel">
+      <h2>Task 4 – Listening: What’s the Real Story?</h2>
+      <details><summary>👉 Show 60-second script (teacher view)</summary>
+        <p class="note">Last spring, our neighbourhood tried a new idea: a pop-up repair café. Every Saturday, volunteers set up tables behind the library with sewing kits, screwdrivers and spare parts. People brought broken toasters, loose bicycle chains and jackets with missing buttons. Instead of charging a fee, we put a jar on the table for donations, and offered tea while we worked. By the third weekend, word had spread; a retired electrician joined us and fixed a dozen lamps in one afternoon. The best moment wasn’t saving money, though. It was watching a teenager mend his own backpack with a little guidance—and then teach the next person. When the café ended, the library kept a toolbox and now runs a monthly ‘fix-it’ hour. It turns out the hardest part isn’t the repairs. It’s convincing people they’re capable.</p></details>
+      <ol>
+        <li><b>Gist:</b> What is the main purpose?
+          <div class="answer"><label><input type="radio" name="l1" value="a"> Entertainment only</label></div>
+          <div class="answer"><label><input type="radio" name="l1" value="b"> To repair items and teach skills</label></div>
+          <div class="answer"><label><input type="radio" name="l1" value="c"> Advertising</label></div></li>
+        <li><b>Detail:</b> How did they handle payment?
+          <div class="answer"><label><input type="radio" name="l2" value="a"> Fixed price list</label></div>
+          <div class="answer"><label><input type="radio" name="l2" value="b"> Free with donations</label></div>
+          <div class="answer"><label><input type="radio" name="l2" value="c"> Members only</label></div></li>
+        <li><b>Attitude:</b> What does the speaker value most?
+          <div class="answer"><label><input type="radio" name="l3" value="a"> Numbers</label></div>
+          <div class="answer"><label><input type="radio" name="l3" value="b"> People learning/helping</label></div>
+          <div class="answer"><label><input type="radio" name="l3" value="c"> Money</label></div></li>
+      </ol>
+      <div class="footer">
+        <div><span>Timer: <span id="timer4" class="timer">03:00</span></span>
+          <button class="inline-btn" onclick="startTimer(180,'timer4')">Start 3m</button>
+          <button class="secondary inline-btn" onclick="stopTimer()">Stop</button></div>
+        <div><button onclick="checkListening()">Check</button>
+          <button class="secondary inline-btn" onclick="gotoTask(5)">Next: Writing</button></div>
+      </div>
+    </section>
+
+    <section id="task5" class="task panel">
+      <h2>Task 5 – Writing: Collaborative Sentence Race</h2>
+      <p>Prompt: <b>Some people say students should do compulsory community service. Do you agree?</b> (140–190 words). Each student writes <b>one sentence</b> then passes the paper.</p>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Useful Language</h3>
+          <ul><li>On the one hand / On the other hand</li><li>It could be argued that...</li>
+          <li>Not only..., but also...</li><li>In addition / Moreover / However</li>
+          <li>As a result / Therefore / Consequently</li><li>To sum up / In conclusion</li></ul>
+        </div>
+        <div class="card">
+          <h3>Random Connector</h3>
+          <button onclick="rollConnector()">🎲 Roll connector</button>
+          <p id="connector" style="font-size:20px; font-weight:800; margin-top:6px;">—</p>
+        </div>
+      </div>
+      <div class="footer">
+        <div><span>Timer: <span id="timer5" class="timer">08:00</span></span>
+          <button class="inline-btn" onclick="startTimer(480,'timer5')">Start 8m</button>
+          <button class="secondary inline-btn" onclick="stopTimer()">Stop</button></div>
+        <div><button onclick="award(5); revealLetter(4); alert('Great! Share one sentence per team.');">Reveal Letter</button>
+          <button class="secondary inline-btn" onclick="gotoTask(0)">Back to Top</button></div>
+      </div>
+    </section>
+
+    <div class="panel">
+      <h2>Teacher Controls</h2>
+      <div class="grid cols-4">
+        <div class="card">
+          <h3>Jump to Task</h3>
+          <button onclick="gotoTask(1)">1 Speaking</button>
+          <button onclick="gotoTask(2)" class="inline-btn">2 Reading</button><br/>
+          <button onclick="gotoTask(3)" style="margin-top:6px">3 Use of English</button>
+          <button onclick="gotoTask(4)" class="inline-btn">4 Listening</button>
+          <button onclick="gotoTask(5)" class="inline-btn" style="margin-top:6px">5 Writing</button>
+        </div>
+        <div class="card">
+          <h3>Scoring</h3>
+          <button onclick="award(1)">+1</button><button onclick="award(2)" class="inline-btn">+2</button><button onclick="award(5)" class="inline-btn">+5</button>
+          <p class="note">Adjust for speed/accuracy, bonus for justification & teamwork.</p>
+        </div>
+        <div class="card">
+          <h3>Password Progress</h3>
+          <p id="pwstatus" class="note">Letters appear after each solved task.</p>
+          <button onclick="resetGame()">Reset game</button>
+        </div>
+        <div class="card">
+          <h3>Fullscreen</h3>
+          <button onclick="toggleFull()">Toggle</button>
+          <p class="note">Use F11 as well.</p>
+        </div>
+      </div>
+      <div class="credits">© English House • B2 First prep • No internet required</div>
+    </div>
+  </div>
+
+<script>
+  // Navigation
+  let current = 0;
+  function gotoTask(n){ document.querySelectorAll('.task').forEach(el=>el.classList.remove('active'));
+    if(n===0){window.scrollTo({top:0,behavior:'smooth'});return}; document.getElementById('task'+n).classList.add('active');
+    current=n; document.getElementById('task'+n).scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  function toggleFull(){ if(!document.fullscreenElement){document.documentElement.requestFullscreen()} else {document.exitFullscreen()} }
+
+  // Timers
+  let timerInt=null, remaining=0, targetEl=null;
+  function startTimer(seconds,elId){ stopTimer(); remaining=seconds; targetEl=document.getElementById(elId); renderTime();
+    timerInt=setInterval(()=>{ remaining--; renderTime(); if(remaining<=0){ stopTimer(); beep(); } },1000); }
+  function stopTimer(){ if(timerInt){clearInterval(timerInt); timerInt=null} }
+  function renderTime(){ const m=String(Math.floor(remaining/60)).padStart(2,'0'); const s=String(remaining%60).padStart(2,'0'); if(targetEl) targetEl.textContent=m+':'+s; }
+  function beep(){ try{ const ctx=new (window.AudioContext||window.webkitAudioContext)(); const o=ctx.createOscillator(); const g=ctx.createGain();
+    o.type='sine'; o.frequency.value=880; o.connect(g); g.connect(ctx.destination);
+    g.gain.setValueAtTime(0.001, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.3, ctx.currentTime+0.02);
+    o.start(); setTimeout(()=>{ g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.25); o.stop(ctx.currentTime+0.3); },250); }catch(e){} }
+  document.addEventListener('keydown',(e)=>{ if(e.key.toLowerCase()==='t'){ if(timerInt) stopTimer(); else { const dt={1:45,2:180,3:240,4:180,5:480}; startTimer(dt[current]||60,'timer'+current); } } });
+
+  // Scoring & password
+  const pwLetters=['P','A','S','S','B2']; let score=0, solved=0, revealed=[false,false,false,false,false];
+  function award(n){ score+=n; document.getElementById('score').textContent=score; }
+  function revealLetter(idx){ if(revealed[idx]){alert('Already revealed.');return}; revealed[idx]=true; solved++; document.getElementById('solved').textContent=solved; updatePassword(); }
+  function updatePassword(){ const shown=revealed.map((v,i)=> v? pwLetters[i] : '_').join(' ');
+    document.getElementById('password').textContent=shown; if(revealed.every(Boolean)){ document.getElementById('pwstatus').textContent='All letters revealed! Say the password: PASS B2'; } }
+  function resetGame(){ score=0; solved=0; revealed=[false,false,false,false,false];
+    document.getElementById('score').textContent=score; document.getElementById('solved').textContent=solved; updatePassword();
+    ['g1','g2','g3','g4','g5'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+    document.getElementById('connector').textContent='—';
+    document.querySelectorAll('.answer').forEach(a=>a.classList.remove('correct','wrong'));
+  }
+
+  // Reading check (fake headline uses data-fake-index attr)
+  function checkReading(){ const sel=document.querySelector('input[name="r1"]:checked'); if(!sel){ alert('Choose one option first.'); return; }
+    const fake=parseInt(document.getElementById('task2').getAttribute('data-fake-index'));
+    const answers=document.querySelectorAll('input[name="r1"]');
+    answers.forEach(r=>{ const wrap=r.closest('.answer'); if(parseInt(r.value)===fake){wrap.classList.add('correct'); wrap.classList.remove('wrong');} else {wrap.classList.remove('correct'); wrap.classList.add('wrong');} });
+    if(parseInt(sel.value)===fake){ award(5); revealLetter(1); alert('Correct! Great inference.'); }
+    else{ alert('Not quite. Discuss the clues and try again next set.'); }
+  }
+
+  // Cloze check
+  const expected=["although", "had", "been", "on", "such"];
+  function checkCloze(){ const ids=['g1','g2','g3','g4','g5']; let correct=0;
+    ids.forEach((id,i)=>{ const el=document.getElementById(id); if(!el) return; const v=el.value.trim().toLowerCase();
+      if(v===expected[i]){ correct++; el.style.outline='2px solid var(--ok)'; } else { el.style.outline='2px solid var(--bad)'; } });
+    if(correct===5){ award(5); revealLetter(2); alert('Perfect 5/5!'); }
+    else{ award(correct>=3?2:0); alert('You got '+correct+'/5. Key: '+expected.join(', ')); }
+  }
+
+  // Listening check
+  const keys={"l1":"b","l2":"b","l3":"b"};
+  function checkListening(){ let all=true; Object.keys(keys).forEach(k=>{ const sel=document.querySelector('input[name="'+k+'"]:checked'); if(!sel) all=false;
+    const wraps=document.querySelectorAll('input[name="'+k+'"]'); wraps.forEach(inp=>{ const wrap=inp.closest('.answer'); if(inp.value===keys[k]) wrap.classList.add('correct'); else wrap.classList.add('wrong'); }); });
+    if(!all){ alert('Answer all three first.'); return; } award(5); revealLetter(3); alert('Nice comprehension!'); }
+
+  // Connector roller
+  const connectors=['On the one hand,','However,','In addition,','Not only..., but also...','As a result,','Nevertheless,','It could be argued that','To sum up,','Therefore,','Moreover,'];
+  function rollConnector(){ const pick=connectors[Math.floor(Math.random()*connectors.length)]; document.getElementById('connector').textContent=pick; beep(); }
+
+  // Logo upload (drag & drop or click)
+  const drop=document.getElementById('drop'); const file=document.getElementById('file'); const box=document.getElementById('logoBox'); const txt=document.getElementById('logoText');
+  function setLogoImage(src){ box.innerHTML='<img src="'+src+'" alt="logo">'; }
+  drop.addEventListener('click',()=>file.click());
+  drop.addEventListener('dragover',(e)=>{ e.preventDefault(); drop.style.borderColor='var(--accent)'; });
+  drop.addEventListener('dragleave',()=>{ drop.style.borderColor='rgba(255,255,255,.3)'; });
+  drop.addEventListener('drop',(e)=>{ e.preventDefault(); drop.style.borderColor='rgba(255,255,255,.3)'; const f=e.dataTransfer.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>setLogoImage(r.result); r.readAsDataURL(f); });
+  file.addEventListener('change',()=>{ const f=file.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>setLogoImage(r.result); r.readAsDataURL(f); });
+  function setLogoText(){ const v=document.getElementById('brand').value || 'EH'; box.innerHTML='<span id="logoText">'+v.toUpperCase().slice(0,3)+'</span>'; }
+
+  // Color presets & apply
+  function applyColors(){ const r=document.documentElement.style;
+    r.setProperty('--bg', document.getElementById('c1').value);
+    r.setProperty('--panel', document.getElementById('c2').value);
+    r.setProperty('--accent', document.getElementById('c3').value);
+    r.setProperty('--accent2', document.getElementById('c4').value);
+  }
+  function preset(name){ const r=document.documentElement.style; if(name==='EH'){ r.setProperty('--bg','#0B3C5D'); r.setProperty('--panel','#122C3D'); r.setProperty('--accent','#328CC1'); r.setProperty('--accent2','#D9B310'); }
+    else if(name==='RTP'){ r.setProperty('--bg','#111827'); r.setProperty('--panel','#1f2937'); r.setProperty('--accent','#ef4444'); r.setProperty('--accent2','#60a5fa'); } }
+  // Start
+  gotoTask(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>B2 First — Use of English (Self-Correcting)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+  :root{
+    --c-bg:#f6f7fb; --c-card:#ffffff; --c-ink:#223;
+    --c-accent:#0b63c6; --c-ok:#1b9e3c; --c-bad:#d12c2c; --c-warn:#e39b00;
+  }
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--c-bg);color:var(--c-ink);margin:0;padding:28px}
+  h1,h2{color:#0a2a60;margin:0 0 12px}
+  .timer{
+    position:sticky; top:0; z-index:10; display:flex; gap:.75rem; align-items:center;
+    background:#fff; border:2px solid var(--c-warn); color:#9c6a00;
+    padding:10px 14px; border-radius:12px; font-weight:700; box-shadow:0 6px 14px rgba(0,0,0,.06);
+    width:max-content; margin:0 0 20px 0;
+  }
+  .wrap{max-width:1000px;margin:auto}
+  .card{background:var(--c-card); border-radius:14px; padding:18px 20px; box-shadow:0 10px 24px rgba(0,0,0,.05); margin:18px 0}
+  .text{background:#f0f5ff; border-left:5px solid var(--c-accent); padding:14px 16px; border-radius:9px}
+  .qblock{margin:14px 0}
+  .qrow{margin:8px 0}
+  label{display:block;margin:6px 0; cursor:pointer}
+  input[type="text"]{width:min(680px,95%); padding:8px 10px; border:1px solid #c9cfdb; border-radius:8px; font-size:15px}
+  input[type="text"].ok{border-color:var(--c-ok); background:#f0fff2}
+  input[type="text"].bad{border-color:var(--c-bad); background:#fff2f2}
+  .opt.ok{color:var(--c-ok); font-weight:600}
+  .opt.bad{color:var(--c-bad); font-weight:600}
+  .base{color:#5a6a85; font-style:italic; margin-left:.35rem}
+  .controls{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+  button{border:0; background:var(--c-accent); color:#fff; padding:10px 16px; border-radius:10px; font-weight:700; cursor:pointer}
+  button.secondary{background:#8aa3c9}
+  button.warn{background:#d12c2c}
+  .result{font-weight:800; font-size:18px; margin-top:8px}
+  .muted{color:#667}
+  .inline-gap{display:inline-block; min-width:2ch}
+  .scoreline{margin-top:6px}
+  .small{font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- TIMER -->
+  <div class="timer" id="timer" data-minutes="75" aria-live="polite">
+    ⏱ <span id="tleft">75:00</span>
+    <div class="controls">
+      <button id="pauseBtn" class="secondary" type="button">Pause</button>
+      <button id="resetBtn" class="secondary" type="button">Reset</button>
+    </div>
+  </div>
+
+  <h1>B2 First — Use of English (Parts 1–4)</h1>
+  <p class="muted">Instructions: Answer all questions. When the time ends, your test is submitted automatically.</p>
+
+  <!-- PART 1 -->
+  <div class="card" id="part1">
+    <h2>Part 1 — Multiple Choice Cloze</h2>
+    <p class="muted small">Read the text and choose the correct answer (A, B, C or D) for each gap.</p>
+    <div class="text">
+      <p><strong>Volunteering Abroad</strong></p>
+      <p>
+        Volunteering abroad is an increasingly popular way for young people to gain experience while making a difference.
+        Although the (1) ______ of leaving home can seem (2) ______, those who (3) ______ for structured programmes
+        usually receive training and support. You may be asked to (4) ______ with unexpected challenges and to be (5) ______
+        to live outside your comfort zone. (6) ______ the hard work, you will learn a great deal about yourself (7) ______ other cultures.
+        Many volunteers say the (8) ______ they gain is invaluable when they apply for jobs later on.
+      </p>
+    </div>
+
+    <div class="qblock">
+      <div class="qrow"><strong>(1)</strong>
+        <label class="opt"><input type="radio" name="p1q1" value="A"> A prospect</label>
+        <label class="opt"><input type="radio" name="p1q1" value="B"> B sight</label>
+        <label class="opt"><input type="radio" name="p1q1" value="C"> C view</label>
+        <label class="opt"><input type="radio" name="p1q1" value="D"> D scene</label>
+      </div>
+      <div class="qrow"><strong>(2)</strong>
+        <label class="opt"><input type="radio" name="p1q2" value="A"> A daunting</label>
+        <label class="opt"><input type="radio" name="p1q2" value="B"> B alarming</label>
+        <label class="opt"><input type="radio" name="p1q2" value="C"> C dangerous</label>
+        <label class="opt"><input type="radio" name="p1q2" value="D"> D upsetting</label>
+      </div>
+      <div class="qrow"><strong>(3)</strong>
+        <label class="opt"><input type="radio" name="p1q3" value="A"> A apply</label>
+        <label class="opt"><input type="radio" name="p1q3" value="B"> B ask</label>
+        <label class="opt"><input type="radio" name="p1q3" value="C"> C search</label>
+        <label class="opt"><input type="radio" name="p1q3" value="D"> D turn</label>
+      </div>
+      <div class="qrow"><strong>(4)</strong>
+        <label class="opt"><input type="radio" name="p1q4" value="A"> A cope</label>
+        <label class="opt"><input type="radio" name="p1q4" value="B"> B treat</label>
+        <label class="opt"><input type="radio" name="p1q4" value="C"> C solve</label>
+        <label class="opt"><input type="radio" name="p1q4" value="D"> D manage</label>
+      </div>
+      <div class="qrow"><strong>(5)</strong>
+        <label class="opt"><input type="radio" name="p1q5" value="A"> A willing</label>
+        <label class="opt"><input type="radio" name="p1q5" value="B"> B used</label>
+        <label class="opt"><input type="radio" name="p1q5" value="C"> C keen</label>
+        <label class="opt"><input type="radio" name="p1q5" value="D"> D suitable</label>
+      </div>
+      <div class="qrow"><strong>(6)</strong>
+        <label class="opt"><input type="radio" name="p1q6" value="A"> A Despite</label>
+        <label class="opt"><input type="radio" name="p1q6" value="B"> B Unless</label>
+        <label class="opt"><input type="radio" name="p1q6" value="C"> C Beside</label>
+        <label class="opt"><input type="radio" name="p1q6" value="D"> D Even</label>
+      </div>
+      <div class="qrow"><strong>(7)</strong>
+        <label class="opt"><input type="radio" name="p1q7" value="A"> A as well as</label>
+        <label class="opt"><input type="radio" name="p1q7" value="B"> B along</label>
+        <label class="opt"><input type="radio" name="p1q7" value="C"> C besides</label>
+        <label class="opt"><input type="radio" name="p1q7" value="D"> D with</label>
+      </div>
+      <div class="qrow"><strong>(8)</strong>
+        <label class="opt"><input type="radio" name="p1q8" value="A"> A experience</label>
+        <label class="opt"><input type="radio" name="p1q8" value="B"> B knowledge</label>
+        <label class="opt"><input type="radio" name="p1q8" value="C"> C practice</label>
+        <label class="opt"><input type="radio" name="p1q8" value="D"> D information</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART 2 -->
+  <div class="card" id="part2">
+    <h2>Part 2 — Open Cloze</h2>
+    <p class="muted small">Write ONE word in each gap.</p>
+    <div class="text">
+      <p><strong>Working from Home</strong></p>
+      <p>
+        Working from home may seem attractive at first, (1) <input id="p2q1" type="text" class="inline-gap" />
+        it can be difficult to stay focused. To begin with, you need a routine. (2)
+        <input id="p2q2" type="text" class="inline-gap" /> you fail to plan your day, you may end up working longer (3)
+        <input id="p2q3" type="text" class="inline-gap" /> you intended. It's also essential to set boundaries with family members so (4)
+        <input id="p2q4" type="text" class="inline-gap" /> they understand when you are busy. Many people are surprised by how much time they save (5)
+        <input id="p2q5" type="text" class="inline-gap" /> commuting; (6)
+        <input id="p2q6" type="text" class="inline-gap" />, this doesn't automatically mean they are more productive. The key is to switch (7)
+        <input id="p2q7" type="text" class="inline-gap" /> at the end of the day and resist the temptation (8)
+        <input id="p2q8" type="text" class="inline-gap" /> check emails late at night.
+      </p>
+    </div>
+  </div>
+
+  <!-- PART 3 -->
+  <div class="card" id="part3">
+    <h2>Part 3 — Word Formation</h2>
+    <p class="muted small">Use the word in capitals to form a word that fits each gap.</p>
+    <div class="text">
+      <p><strong>Inside the Modern Museum</strong></p>
+      <p>
+        City museums are reimagining their role. They aim to be more
+        (1) <input id="p3q1" type="text" /> <span class="base">(INTERACT)</span>,
+        using touchscreens and live demonstrations to invite participation. This approach celebrates
+        (2) <input id="p3q2" type="text" /> <span class="base">(CREATE)</span>
+        and encourages visitors to create their own work. Free admission has improved
+        (3) <input id="p3q3" type="text" /> <span class="base">(ACCESS)</span>
+        for low-income families. As a result, weekend events have become increasingly
+        (4) <input id="p3q4" type="text" /> <span class="base">(POPULAR)</span>
+        among teenagers. Programmes draw on local
+        (5) <input id="p3q5" type="text" /> <span class="base">(CULTURE)</span>
+        traditions and include talks by
+        (6) <input id="p3q6" type="text" /> <span class="base">(EDUCATE)</span>
+        with classroom experience. The goal is to spark lifelong
+        (7) <input id="p3q7" type="text" /> <span class="base">(CURIOUS)</span>
+        and promote
+        (8) <input id="p3q8" type="text" /> <span class="base">(COLLABORATE)</span>
+        between schools and galleries.
+      </p>
+    </div>
+  </div>
+
+  <!-- PART 4 -->
+  <div class="card" id="part4">
+    <h2>Part 4 — Key Word Transformations</h2>
+    <p class="muted small">Use the word given to complete the second sentence so it means the same as the first. Use **2–5 words**, including the word given.</p>
+    <div class="qblock">
+      <div class="qrow">
+        (1) I started working here five years ago.<br/>
+        → I <span class="muted">(keyword: <strong>BEEN</strong>)</span>
+        <input id="p4q1" type="text" placeholder="2–5 words including BEEN" /> here for five years.
+      </div>
+      <div class="qrow">
+        (2) She called me, but it wasn't necessary.<br/>
+        → She <span class="muted">(keyword: <strong>NEEDN'T</strong>)</span>
+        <input id="p4q2" type="text" placeholder="2–5 words including NEEDN'T" /> me.
+      </div>
+      <div class="qrow">
+        (3) The last time we saw Tom was in May.<br/>
+        → We <span class="muted">(keyword: <strong>SINCE</strong>)</span>
+        <input id="p4q3" type="text" placeholder="2–5 words including SINCE" /> May.
+      </div>
+      <div class="qrow">
+        (4) It is not allowed to park here.<br/>
+        → You <span class="muted">(keyword: <strong>MUSTN'T</strong>)</span>
+        <input id="p4q4" type="text" placeholder="2–5 words including MUSTN'T" /> here.
+      </div>
+      <div class="qrow">
+        (5) I'm certain he isn't at home.<br/>
+        → He <span class="muted">(keyword: <strong>CAN'T</strong>)</span>
+        <input id="p4q5" type="text" placeholder="2–5 words including CAN'T" /> at home.
+      </div>
+      <div class="qrow">
+        (6) Doing exercise regularly is more important than dieting.<br/>
+        → Dieting <span class="muted">(keyword: <strong>AS</strong>)</span>
+        <input id="p4q6" type="text" placeholder="2–5 words including AS" /> doing exercise regularly.
+      </div>
+    </div>
+    <p class="small muted">Scoring: each item = 2 points (1 point for each “half” matched). Max Part 4 = 12 points.</p>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="card">
+    <div class="controls">
+      <button id="submitBtn" type="button">Check Answers</button>
+      <button id="clearBtn" type="button" class="warn">Clear All</button>
+    </div>
+    <div id="result" class="result"></div>
+    <div id="breakdown" class="small"></div>
+  </div>
+</div>
+
+<script>
+/* ===== Utility ===== */
+const $ = (q,root=document)=>root.querySelector(q);
+const $$ = (q,root=document)=>Array.from(root.querySelectorAll(q));
+const norm = s => s.trim().toLowerCase().replace(/\s+/g,' ');
+
+/* ===== Answer Key ===== */
+/* Part 1 — correct letters */
+const P1 = {
+  p1q1:'A', p1q2:'A', p1q3:'A', p1q4:'A', p1q5:'A', p1q6:'A', p1q7:'A', p1q8:'A'
+};
+/* Part 2 — acceptable answers per gap */
+const P2 = {
+  p2q1:['though','although'],
+  p2q2:['if'],
+  p2q3:['than'],
+  p2q4:['that'],
+  p2q5:['on'],
+  p2q6:['however'],
+  p2q7:['off'],
+  p2q8:['to']
+};
+/* Part 3 — word formation single correct (allow common variants) */
+const P3 = {
+  p3q1:['interactive'],
+  p3q2:['creativity'],
+  p3q3:['accessibility'],
+  p3q4:['popular'],
+  p3q5:['cultural'],
+  p3q6:['educators','educators\''], /* forgiving possessive */
+  p3q7:['curiosity'],
+  p3q8:['collaboration']
+};
+/* Part 4 — transformation halves (each half = 1 point). We also check 2–5 words total. */
+const P4 = [
+  { id:'p4q1', keyword:'been', halves:[ ['have been'], ['working'] ] },
+  { id:'p4q2', keyword:"needn't", halves:[ ["needn't have","neednt have"], ['called'] ] },
+  { id:'p4q3', keyword:'since', halves:[ ["haven't seen","have not seen"], ['since'] ] },
+  { id:'p4q4', keyword:"mustn't", halves:[ ["mustn't","must not"], ['park'] ] },
+  { id:'p4q5', keyword:"can't", halves:[ ["can't","cannot"], ['be'] ] },
+  { id:'p4q6', keyword:'as', halves:[ ["isn't as","is not as"], ['important as'] ] }
+];
+
+/* ===== Scoring ===== */
+function markPart1(){
+  let score=0;
+  Object.keys(P1).forEach(id=>{
+    const chosen = $(`input[name="${id}"]:checked`);
+    const correct = P1[id];
+    const opts = $$(`input[name="${id}"]`).map(i=>i.parentElement);
+    opts.forEach(l=>l.classList.remove('ok','bad'));
+    if(chosen){
+      if(chosen.value===correct){ score+=1; chosen.parentElement.classList.add('ok'); }
+      else { chosen.parentElement.classList.add('bad'); /* also mark correct */ 
+             const right = $(`input[name="${id}"][value="${correct}"]`).parentElement;
+             right.classList.add('ok'); }
+    }
+  });
+  return {score, max:8};
+}
+
+function markTextInputs(map){
+  let score=0, max=Object.keys(map).length;
+  Object.keys(map).forEach(id=>{
+    const el = document.getElementById(id);
+    const val = norm(el.value||'');
+    const okList = map[id].map(norm);
+    if(okList.includes(val)){ score+=1; el.classList.add('ok'); el.classList.remove('bad'); }
+    else { el.classList.add('bad'); el.classList.remove('ok'); }
+  });
+  return {score, max};
+}
+
+function markPart4(){
+  let score=0, max=12; // 6 items × 2 points
+  P4.forEach(({id,keyword,halves})=>{
+    const el = document.getElementById(id);
+    const val = norm(el.value||'');
+    const words = val ? val.split(' ').length : 0;
+
+    // half matches
+    const h1 = halves[0].some(h=>val.includes(norm(h)));
+    const h2 = halves[1].some(h=>val.includes(norm(h)));
+    const hasKey = val.includes(norm(keyword));
+    let itemScore = 0;
+
+    // credit halves (1 point each) if present; require keyword too for full validity
+    if(h1) itemScore += 1;
+    if(h2) itemScore += 1;
+
+    // Optional: if outside 2–5 words or keyword missing, downgrade by 1 (but never below 0)
+    if(!(words>=2 && words<=5) || !hasKey){
+      itemScore = Math.max(0, itemScore - 1);
+    }
+
+    score += itemScore;
+
+    // visual feedback
+    if(itemScore===2){ el.classList.add('ok'); el.classList.remove('bad'); }
+    else if(itemScore===1){ el.classList.remove('ok'); el.classList.add('bad'); el.title="Partial credit (1/2)"; }
+    else { el.classList.remove('ok'); el.classList.add('bad'); }
+  });
+  return {score, max};
+}
+
+function checkAll(){
+  // clear marks
+  $$('#part1 .opt').forEach(l=>l.classList.remove('ok','bad'));
+  $$('input[type="text"]').forEach(i=>i.classList.remove('ok','bad'));
+
+  const s1 = markPart1();
+  const s2 = markTextInputs(P2);
+  const s3 = markTextInputs(P3);
+  const s4 = markPart4();
+
+  const total = s1.score+s2.score+s3.score+s4.score;
+  const max = s1.max+s2.max+s3.max+s4.max; // 36
+  const pct = Math.round((total/max)*100);
+
+  $('#result').textContent = `Score: ${total} / ${max} (${pct}%)`;
+  $('#breakdown').innerHTML =
+    `<div class="scoreline">Part 1: ${s1.score}/${s1.max} · Part 2: ${s2.score}/${s2.max} · Part 3: ${s3.score}/${s3.max} · Part 4: ${s4.score}/${s4.max}</div>`;
+}
+
+/* ===== Timer ===== */
+let remaining = (parseInt($('#timer').dataset.minutes,10)||75)*60;
+let ticking = true, tHandle;
+function renderTime(){
+  const m = Math.floor(remaining/60), s = remaining%60;
+  $('#tleft').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+}
+function tick(){
+  if(!ticking) return;
+  if(remaining<=0){
+    $('#tleft').textContent = '0:00';
+    ticking=false;
+    // auto-submit & lock
+    checkAll();
+    $$('input,button').forEach(el=>{
+      if(!['resetBtn','clearBtn'].includes(el.id)) el.disabled = true;
+    });
+    return;
+  }
+  remaining--; renderTime();
+  tHandle = setTimeout(tick,1000);
+}
+renderTime(); tick();
+
+$('#pauseBtn').addEventListener('click',()=>{
+  ticking = !ticking;
+  $('#pauseBtn').textContent = ticking ? 'Pause' : 'Resume';
+  if(ticking) tick();
+});
+$('#resetBtn').addEventListener('click',()=>{
+  clearTimeout(tHandle);
+  remaining = (parseInt($('#timer').dataset.minutes,10)||75)*60;
+  ticking=true; $('#pauseBtn').textContent='Pause'; renderTime(); tick();
+});
+
+/* ===== Buttons ===== */
+$('#submitBtn').addEventListener('click', checkAll);
+$('#clearBtn').addEventListener('click', ()=>{
+  $$('input[type="text"]').forEach(i=>{ i.value=''; i.classList.remove('ok','bad'); });
+  $$('input[type="radio"]').forEach(r=>{ r.checked=false; r.parentElement.classList.remove('ok','bad'); });
+  $('#result').textContent=''; $('#breakdown').textContent='';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>B1 FULL FINAL EXAM – All Autocorrected</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { font-family: Arial, sans-serif; padding:20px; background:#f5f7fb; margin:0; }
+  h1 { color:#003366; margin-top:0; }
+  section { background:#ffffff; padding:15px 18px; margin-bottom:15px; border-radius:8px;
+            box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+  h2 { color:#003366; margin-top:0; }
+  h3 { margin-bottom:6px; }
+  p { margin:6px 0; }
+  select, input[type="text"] {
+    padding:3px 5px;
+    border-radius:4px;
+    border:1px solid #aaa;
+    font-size:0.9rem;
+  }
+  textarea {
+    width:100%;
+    min-height:120px;
+    padding:6px;
+    border-radius:6px;
+    border:1px solid #bbb;
+    font-family:inherit;
+    font-size:0.95rem;
+    resize:vertical;
+  }
+  .reading-box {
+    background:#eef3ff;
+    padding:10px;
+    white-space:pre-line;
+    border-radius:6px;
+    margin-bottom:10px;
+  }
+  .result { margin-left:5px; font-weight:bold; }
+  .correct { color:green; }
+  .incorrect { color:red; }
+  .info-box {
+    background:#eef3ff;
+    border-left:4px solid #003366;
+    padding:6px 10px;
+    margin-bottom:8px;
+    font-size:0.9rem;
+  }
+</style>
+
+<script>
+function gradeExam(){
+  let score = 0;
+  const keys = {
+    // Reading
+    r1:'t',
+    r2:'f',
+    r3:'f',
+    r4:'t',
+    r5:'t',
+    // Grammar 1
+    g1_1:'is studying',
+    g1_2:'does not work',
+    g1_3:'is going to travel',
+    g1_4:'will call',
+    g1_5:'was watching',
+    // Grammar 2
+    g2_1:'used to play',
+    g2_2:'did not use to like',
+    g2_3:'went',
+    g2_4:'had written',
+    g2_5:'was able to',
+    // Grammar 3
+    g3_1:'will be',
+    g3_2:'have to',
+    g3_3:'should',
+    g3_4:'can',
+    g3_5:'would help',
+    // Vocabulary 1 – travel
+    v1_1:'accommodation',
+    v1_2:'luggage',
+    v1_3:'sightseeing',
+    v1_4:'tour guide',
+    v1_5:'book',
+    // Vocabulary 2 – technology & learning
+    v2_1:'download',
+    v2_2:'app',
+    v2_3:'online course',
+    v2_4:'wifi',
+    v2_5:'skills'
+  };
+
+  const total = Object.keys(keys).length;
+
+  function normalise(val){
+    return val.trim().toLowerCase();
+  }
+
+  // AUTOCORRIGE TODOS LOS ITEMS DE READING + GRAMMAR + VOCAB
+  for (const id in keys){
+    const el = document.getElementById(id);
+    const res = document.getElementById(id + "-result");
+    if (!el || !res) continue;
+    const userVal = normalise(el.value || "");
+    const correctVal = normalise(keys[id]);
+    if (userVal === correctVal){
+      score++;
+      res.textContent = "✔";
+      res.className = "result correct";
+    } else {
+      res.textContent = "✘ (Correct: " + keys[id] + ")";
+      res.className = "result incorrect";
+    }
+  }
+
+  document.getElementById("score").textContent =
+    "Auto-corrected score (Reading + Grammar + Vocabulary): " + score + " / " + total;
+
+  function gv(id){
+    const el = document.getElementById(id);
+    if (!el) return "";
+    if (el.tagName.toLowerCase() === 'select'){
+      return el.options[el.selectedIndex].value;
+    } else {
+      return el.value;
+    }
+  }
+
+  const bodyLines = [];
+
+  const studentName = gv("student_name");
+  if (studentName){
+    bodyLines.push("Student: " + studentName);
+    bodyLines.push("");
+  }
+
+  bodyLines.push("B1 FULL FINAL EXAM – RESULT");
+  bodyLines.push("");
+  bodyLines.push("Auto-corrected score (Reading + Grammar + Vocabulary): " + score + " / " + total);
+  bodyLines.push("");
+  bodyLines.push("READING:");
+  bodyLines.push("r1=" + gv("r1") + ", r2=" + gv("r2") + ", r3=" + gv("r3") + ", r4=" + gv("r4") + ", r5=" + gv("r5"));
+  bodyLines.push("");
+  bodyLines.push("GRAMMAR 1:");
+  bodyLines.push("g1_1=" + gv("g1_1") + ", g1_2=" + gv("g1_2") + ", g1_3=" + gv("g1_3") + ", g1_4=" + gv("g1_4") + ", g1_5=" + gv("g1_5"));
+  bodyLines.push("");
+  bodyLines.push("GRAMMAR 2:");
+  bodyLines.push("g2_1=" + gv("g2_1") + ", g2_2=" + gv("g2_2") + ", g2_3=" + gv("g2_3") + ", g2_4=" + gv("g2_4") + ", g2_5=" + gv("g2_5"));
+  bodyLines.push("");
+  bodyLines.push("GRAMMAR 3:");
+  bodyLines.push("g3_1=" + gv("g3_1") + ", g3_2=" + gv("g3_2") + ", g3_3=" + gv("g3_3") + ", g3_4=" + gv("g3_4") + ", g3_5=" + gv("g3_5"));
+  bodyLines.push("");
+  bodyLines.push("VOCABULARY 1 (travel):");
+  bodyLines.push("v1_1=" + gv("v1_1") + ", v1_2=" + gv("v1_2") + ", v1_3=" + gv("v1_3") + ", v1_4=" + gv("v1_4") + ", v1_5=" + gv("v1_5"));
+  bodyLines.push("");
+  bodyLines.push("VOCABULARY 2 (technology & learning):");
+  bodyLines.push("v2_1=" + gv("v2_1") + ", v2_2=" + gv("v2_2") + ", v2_3=" + gv("v2_3") + ", v2_4=" + gv("v2_4") + ", v2_5=" + gv("v2_5"));
+  bodyLines.push("");
+  bodyLines.push("LISTENING – short answers:");
+  bodyLines.push("1) " + gv("l1"));
+  bodyLines.push("2) " + gv("l2"));
+  bodyLines.push("3) " + gv("l3"));
+  bodyLines.push("4) " + gv("l4"));
+  bodyLines.push("5) " + gv("l5"));
+  bodyLines.push("");
+  bodyLines.push("WRITING (student text):");
+  bodyLines.push(gv("writing"));
+
+  const mailBody = encodeURIComponent(bodyLines.join("\n"));
+  const mailto = "mailto:clarisac@gmail.com?subject=B1 Final Exam Result&body=" + mailBody;
+
+  // Mostrar nota debajo
+  const info = document.getElementById("afterGradeInfo");
+  if (info) info.style.display = "block";
+
+  // Abre el mail automáticamente
+  window.location.href = mailto;
+}
+</script>
+</head>
+
+<body>
+<h1>B1 FINAL EXAM – Units 1–8</h1>
+<div class="info-box">
+  <strong>Student:</strong> Complete all parts. Then click <em>“Finish &amp; Grade”</em> to see your score
+  and send the results to your teacher (clarisac@gmail.com).
+</div>
+
+<p><strong>Student name:</strong>
+  <input id="student_name" type="text" style="min-width:220px;" placeholder="Write your full name">
+</p>
+
+<section id="reading">
+  <h2>1. Reading (400-word text)</h2>
+  <p><strong>Read the text and choose True (T) or False (F).</strong></p>
+  <div class="reading-box">In recent years, the way people learn has changed dramatically. 
+More and more individuals now choose to study online rather than in traditional classrooms. 
+This shift happened for several reasons. First, the internet has become faster and more accessible, 
+allowing students from all over the world to watch lessons, practise skills and complete assignments 
+from the comfort of their own homes. Second, online courses give people the flexibility to study at 
+their own pace. This means that busy adults with jobs or families can learn new skills without 
+having to give up their responsibilities. For example, a working parent can study for an hour after 
+putting their children to bed, while someone with a full-time job can learn during the weekend or 
+whenever they have free time.
+
+However, online learning is not always easy. Many students struggle with motivation because they 
+don’t have a teacher physically present to encourage them. Some people also find it difficult to stay 
+focused at home when there are many distractions, such as social media, household chores or other 
+family members. Another challenge is communication. In a real classroom, learners can ask 
+questions immediately, but online students sometimes need to wait for answers. Even with video 
+calls and chat systems, it can feel less interactive than speaking face-to-face. 
+
+Despite these difficulties, research shows that online learning can be just as effective as traditional 
+education if students are organised and disciplined. Many universities now offer high-quality online 
+programmes, and companies use e-learning to train thousands of employees around the world. 
+Another benefit is that online learning helps people develop digital skills, which are essential in 
+today’s job market. Students learn how to use different platforms, communicate online and manage 
+digital files. These are valuable abilities that can improve their careers.
+
+In conclusion, online learning offers many opportunities and advantages, especially for adults who 
+need flexibility. Although it requires discipline and good time management, it allows people to 
+continue learning throughout their lives. As technology continues to evolve, online learning will 
+likely become even more interactive, personalised and widely used in the future.
+</div>
+
+  <p>1. Online learning allows people to study from home.
+    <select id="r1">
+      <option value=""></option>
+      <option value="t">T</option>
+      <option value="f">F</option>
+    </select>
+    <span id="r1-result" class="result"></span>
+  </p>
+
+  <p>2. Online learning is always easier than traditional learning.
+    <select id="r2">
+      <option value=""></option>
+      <option value="t">T</option>
+      <option value="f">F</option>
+    </select>
+    <span id="r2-result" class="result"></span>
+  </p>
+
+  <p>3. Universities do not offer online programmes.
+    <select id="r3">
+      <option value=""></option>
+      <option value="t">T</option>
+      <option value="f">F</option>
+    </select>
+    <span id="r3-result" class="result"></span>
+  </p>
+
+  <p>4. Online learning helps people develop digital skills.
+    <select id="r4">
+      <option value=""></option>
+      <option value="t">T</option>
+      <option value="f">F</option>
+    </select>
+    <span id="r4-result" class="result"></span>
+  </p>
+
+  <p>5. Online learning will probably become more common in the future.
+    <select id="r5">
+      <option value=""></option>
+      <option value="t">T</option>
+      <option value="f">F</option>
+    </select>
+    <span id="r5-result" class="result"></span>
+  </p>
+</section>
+
+<section id="grammar">
+  <h2>2. Grammar (3 exercises, 5 questions each)</h2>
+
+  <h3>2.1 Present / Past / Future forms</h3>
+  <p>Complete with the correct form of the verb.</p>
+  <p>1. She <input id="g1_1" type="text" placeholder="is ..."> English now. (study)
+     <span id="g1_1-result" class="result"></span></p>
+  <p>2. He <input id="g1_2" type="text" placeholder="..."> today because he’s sick. (not / work)
+     <span id="g1_2-result" class="result"></span></p>
+  <p>3. She <input id="g1_3" type="text" placeholder="..."> to Spain next week. (travel)
+     <span id="g1_3-result" class="result"></span></p>
+  <p>4. I <input id="g1_4" type="text" placeholder="..."> you this evening. (call)
+     <span id="g1_4-result" class="result"></span></p>
+  <p>5. They <input id="g1_5" type="text" placeholder="..."> TV when I arrived. (watch)
+     <span id="g1_5-result" class="result"></span></p>
+
+  <h3>2.2 Past &amp; used to / reported</h3>
+  <p>Complete with the correct form.</p>
+  <p>1. He <input id="g2_1" type="text" placeholder="..."> football when he was a child. (play)
+     <span id="g2_1-result" class="result"></span></p>
+  <p>2. I <input id="g2_2" type="text" placeholder="..."> vegetables before, but now I love them. (not / like)
+     <span id="g2_2-result" class="result"></span></p>
+  <p>3. We <input id="g2_3" type="text" placeholder="..."> to Italy last summer. (go)
+     <span id="g2_3-result" class="result"></span></p>
+  <p>4. She said she <input id="g2_4" type="text" placeholder="..."> the email. (write)
+     <span id="g2_4-result" class="result"></span></p>
+  <p>5. He <input id="g2_5" type="text" placeholder="..."> finish the project in time. (can)
+     <span id="g2_5-result" class="result"></span></p>
+
+  <h3>2.3 Future, obligation &amp; conditionals</h3>
+  <p>Complete with the correct word.</p>
+  <p>1. If it rains, we <input id="g3_1" type="text" placeholder="..."> late. (be)
+     <span id="g3_1-result" class="result"></span></p>
+  <p>2. At my school we <input id="g3_2" type="text" placeholder="..."> wear a uniform. (must / have to)
+     <span id="g3_2-result" class="result"></span></p>
+  <p>3. People <input id="g3_3" type="text" placeholder="..."> recycle more to protect the environment. (should)
+     <span id="g3_3-result" class="result"></span></p>
+  <p>4. You <input id="g3_4" type="text" placeholder="..."> take the bus or the train. (can)
+     <span id="g3_4-result" class="result"></span></p>
+  <p>5. I <input id="g3_5" type="text" placeholder="..."> you if I had more time. (help)
+     <span id="g3_5-result" class="result"></span></p>
+</section>
+
+<section id="vocabulary">
+  <h2>3. Vocabulary (2 exercises, 5 questions each)</h2>
+
+  <h3>3.1 Travel &amp; holidays</h3>
+  <p>Complete with ONE word.</p>
+  <p>1. We usually stay in cheap <input id="v1_1" type="text" placeholder="..."> when we travel. (place to stay)
+     <span id="v1_1-result" class="result"></span></p>
+  <p>2. I put all my clothes in my <input id="v1_2" type="text" placeholder="..."> before going to the airport. (bags and suitcases)
+     <span id="v1_2-result" class="result"></span></p>
+  <p>3. We did a lot of <input id="v1_3" type="text" placeholder="..."> and took hundreds of photos of monuments. (visiting places)
+     <span id="v1_3-result" class="result"></span></p>
+  <p>4. Our <input id="v1_4" type="text" placeholder="..."> explained the history of the city. (person who shows tourists around)
+     <span id="v1_4-result" class="result"></span></p>
+  <p>5. You should <input id="v1_5" type="text" placeholder="..."> your tickets early in high season. (reserve)
+     <span id="v1_5-result" class="result"></span></p>
+
+  <h3>3.2 Technology &amp; learning</h3>
+  <p>Complete with ONE word or phrase.</p>
+  <p>1. I need to <input id="v2_1" type="text" placeholder="..."> this file before I can read it. (get it from the internet)
+     <span id="v2_1-result" class="result"></span></p>
+  <p>2. This language-learning <input id="v2_2" type="text" placeholder="..."> is very easy to use on my phone. (program on a phone)
+     <span id="v2_2-result" class="result"></span></p>
+  <p>3. I’m doing an <input id="v2_3" type="text" placeholder="..."> to improve my English. (internet course)
+     <span id="v2_3-result" class="result"></span></p>
+  <p>4. The <input id="v2_4" type="text" placeholder="..."> in this café is very fast. (wireless internet connection)
+     <span id="v2_4-result" class="result"></span></p>
+  <p>5. Learning languages gives you new <input id="v2_5" type="text" placeholder="..."> for your career. (abilities)
+     <span id="v2_5-result" class="result"></span></p>
+</section>
+
+<section id="listening">
+  <h2>4. Listening (5 questions – teacher checked)</h2>
+  <div class="info-box">
+    <strong>Student:</strong> Click the link, watch the video, then answer the questions.
+    These answers are not auto-marked, but they will be sent to your teacher.
+  </div>
+  <p><strong>Video link:</strong>
+    <a href="https://www.youtube.com/watch?v=5MgBikgcWnY" target="_blank">
+      https://www.youtube.com/watch?v=5MgBikgcWnY
+    </a>
+  </p>
+  <p>1. What is the main topic of the video?</p>
+  <textarea id="l1"></textarea>
+  <p>2. According to the speaker, why do many people stop learning a new skill?</p>
+  <textarea id="l2"></textarea>
+  <p>3. What advice does the speaker give about practice?</p>
+  <textarea id="l3"></textarea>
+  <p>4. What example does the speaker give from their own life?</p>
+  <textarea id="l4"></textarea>
+  <p>5. Do you agree with the speaker? Why / Why not?</p>
+  <textarea id="l5"></textarea>
+</section>
+
+<section id="writing">
+  <h2>5. Writing (Choose ONE – about 100 words)</h2>
+  <p><em>Note: This writing task is not auto-corrected. Your teacher will read and mark it.</em></p>
+  <p><strong>Option 1 – Email:</strong> A friend from another country is visiting your city for the first time.
+    Write an email recommending where to stay, what places to visit and one special activity they shouldn’t miss.</p>
+  <p><strong>Option 2 – Story:</strong> Write a story about a time you tried to learn something new
+    (for example, a sport, a musical instrument or using new technology). Explain what happened and how you felt.</p>
+  <textarea id="writing" placeholder="Write about 100 words."></textarea>
+</section>
+
+<section id="finish">
+  <h2>Finish</h2>
+  <p>
+    Click <strong>“Finish &amp; Grade”</strong> to correct Reading, Grammar and Vocabulary
+    and open an email with all your answers to your teacher.
+  </p>
+  <button type="button" onclick="gradeExam()">Finish &amp; Grade</button>
+  <p id="score" style="margin-top:10px; font-weight:bold;"></p>
+  <div id="afterGradeInfo" style="font-size:0.85rem; color:#555; margin-top:4px; display:none;">
+    Listening and Writing are not auto-marked but are included in the email for your teacher to correct.
+  </div>
+</section>
+
+</body>
+</html>
